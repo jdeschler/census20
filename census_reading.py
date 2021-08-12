@@ -9,8 +9,8 @@ geopath = "TODO"
 outfile = "TODO"
 
 def main():
-    blocks = gpd.read_file(blocks_path)
-    blocks = blocks[blocks.ALAND20 > 0]
+    census = gpd.read_file(census_path)
+    census = census[census.ALAND20 > 0]
 
     # read headers
     geoheaders = list(pd.read_excel('2020_PLSummaryFile_FieldNames.xlsx', sheet_name=2))
@@ -44,10 +44,10 @@ def main():
     with_geo = joined.merge(geo[['LOGRECNO', 'GEOCODE', 'SUMLEV', 'CD116', 'SLDU18', 'SLDL18']], on = 'LOGRECNO')
     with_geo = with_geo.drop('LOGRECNO', axis = 1)
     with_geo['GEOCODE'] = with_geo['GEOCODE'].apply(str)
-    blocks['GEOID20'] = blocks['GEOID20'].apply(str)
+    census['GEOID20'] = census['GEOID20'].apply(str)
 
     # add geometry  
-    final = blocks.merge(with_geo, left_on='GEOID20', right_on='GEOCODE')  
+    final = census.merge(with_geo, left_on='GEOID20', right_on='GEOCODE')
     final.to_file(outfile) 
 
 if __name__ == "__main__":
