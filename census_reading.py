@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 
-blocks_path = "TODO"
+census_path = "TODO"
 f1path = "TODO"
 f2path = "TODO"
 geopath = "TODO"
