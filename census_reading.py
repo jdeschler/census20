@@ -8,6 +8,12 @@ f2path = "TODO"
 geopath = "TODO"
 outfile = "TODO"
 
+# Summary Level
+# 750 for blocks
+# 700 for VTDs
+# 150 for block groups
+sumlev = 'TODO'
+
 def main():
     census = gpd.read_file(census_path)
     census = census[census.ALAND20 > 0]
@@ -45,6 +51,9 @@ def main():
     with_geo = with_geo.drop('LOGRECNO', axis = 1)
     with_geo['GEOCODE'] = with_geo['GEOCODE'].apply(str)
     census['GEOID20'] = census['GEOID20'].apply(str)
+
+    # subset to proper summary level
+    with_geo = with_geo[with_geo['SUMLEV'] == sumlev]
 
     # add geometry  
     final = census.merge(with_geo, left_on='GEOID20', right_on='GEOCODE')
